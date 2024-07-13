@@ -28,7 +28,7 @@ class PhotoWidget extends StatelessWidget {
         child: CircleAvatar(
           radius: 16,
           backgroundColor: Theme.of(context).cardColor,
-          child: Text(photo.id.toString()),
+          child: FittedBox(child: Text(photo.id.toString())),
         ),
       ),
       title: Text(photo.title),

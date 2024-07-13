@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photosapp_manushtech_lv1_v1_jul24/core/utils/navigators.dart';
 import 'package:photosapp_manushtech_lv1_v1_jul24/features/photos/screens/photos_screen.dart';
 import 'package:photosapp_manushtech_lv1_v1_jul24/models/album.dart';
 
@@ -11,11 +12,7 @@ class AlbumWidget extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PhotosScreen(
-              id: album.id,
-            ),
-          ));
+          navigate(context, PhotosScreen(id: album.id));
         },
         leading: CircleAvatar(
           backgroundColor: Colors.black,

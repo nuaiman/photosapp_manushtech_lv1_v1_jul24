@@ -6,7 +6,7 @@ import 'album_widget.dart';
 class AlbumList extends StatelessWidget {
   final List<Album> albums;
 
-  const AlbumList({required this.albums});
+  const AlbumList({super.key, required this.albums});
 
   @override
   Widget build(BuildContext context) {

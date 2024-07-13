@@ -34,6 +34,14 @@ class PhotosNotifier extends StateNotifier<List<Photo>> {
     // Set state with fetched or cached photos
     state = photos;
   }
+
+  List<Photo> getPhotosByAlbumId(int id) {
+    return state
+        .where(
+          (element) => element.albumId == id,
+        )
+        .toList();
+  }
 }
 // -----------------------------------------------------------------------------
 

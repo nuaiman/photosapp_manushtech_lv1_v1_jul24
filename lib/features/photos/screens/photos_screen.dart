@@ -10,7 +10,7 @@ class PhotosScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final photos = ref.watch(photosProvider);
+    final photos = ref.watch(photosProvider.notifier).getPhotosByAlbumId(id);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
