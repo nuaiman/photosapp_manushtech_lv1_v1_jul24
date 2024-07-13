@@ -14,7 +14,15 @@ class PhotosScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Photos'),
+        centerTitle: true,
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.image_outlined),
+            SizedBox(width: 4),
+            Text('Photos'),
+          ],
+        ),
       ),
       body: photos.isNotEmpty
           ? ListView.separated(

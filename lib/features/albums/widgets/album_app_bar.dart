@@ -9,11 +9,19 @@ class AlbumAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: const Text('Albums'),
+      centerTitle: true,
+      title: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.photo_library_outlined),
+          SizedBox(width: 4),
+          Text('Albums'),
+        ],
+      ),
       bottom: PreferredSize(
         preferredSize: preferredSize,
         child: const Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
+          padding: EdgeInsets.only(left: 4, right: 4, bottom: 8),
           child: AlbumSearchField(),
         ),
       ),
