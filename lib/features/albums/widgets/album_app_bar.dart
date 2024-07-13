@@ -12,8 +12,8 @@ class AlbumAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('Albums'),
       bottom: PreferredSize(
         preferredSize: preferredSize,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
           child: AlbumSearchField(),
         ),
       ),
@@ -21,5 +21,5 @@ class AlbumAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(100);
 }
