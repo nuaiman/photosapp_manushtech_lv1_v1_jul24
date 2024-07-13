@@ -4,13 +4,52 @@ import 'package:photosapp_manushtech_lv1_v1_jul24/features/photos/widgets/photo_
 
 import '../../photos/notifiers/photos_notifier.dart';
 
-class PhotosScreen extends ConsumerWidget {
+class PhotosScreen extends ConsumerStatefulWidget {
   final int id;
   const PhotosScreen({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final photos = ref.watch(photosProvider.notifier).getPhotosByAlbumId(id);
+  ConsumerState<PhotosScreen> createState() => _PhotosScreenState();
+}
+
+class _PhotosScreenState extends ConsumerState<PhotosScreen> {
+  int _pageIndex = 1;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      updatePageIndex();
+    }
+  }
+
+  void updatePageIndex() {
+    if (_pageIndex == 5) {
+      return;
+    }
+    setState(() {
+      _pageIndex++;
+    });
+    print('-------------------- $_pageIndex ----------------------');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final photos =
+        ref.watch(photosProvider.notifier).getPhotosByAlbumId(widget.id);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -26,6 +65,7 @@ class PhotosScreen extends ConsumerWidget {
       ),
       body: photos.isNotEmpty
           ? ListView.separated(
+              controller: _scrollController,
               itemCount: photos.length,
               separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
