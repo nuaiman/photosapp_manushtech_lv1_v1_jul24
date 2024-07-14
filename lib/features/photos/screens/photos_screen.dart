@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:photosapp_manushtech_lv1_v1_jul24/core/providers/loader_notifier.dart';
 import 'package:photosapp_manushtech_lv1_v1_jul24/features/photos/widgets/photo_widget.dart';
 
 import '../../photos/notifiers/photos_notifier.dart';
@@ -13,43 +14,40 @@ class PhotosScreen extends ConsumerStatefulWidget {
 }
 
 class _PhotosScreenState extends ConsumerState<PhotosScreen> {
-  int _pageIndex = 1;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    ref.read(photosProvider.notifier).initIndex();
+    _scrollController.addListener(() => _scrollListener(ref));
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
+    _scrollController.removeListener(() => _scrollListener(ref));
     _scrollController.dispose();
     super.dispose();
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      updatePageIndex();
-    }
-  }
+  // void _scrollListener(WidgetRef ref) {
+  //   if (_scrollController.positions.last.hasPixels) {
+  //     ref.read(photosProvider.notifier).updateIndex();
+  //   }
+  // }
 
-  void updatePageIndex() {
-    if (_pageIndex == 5) {
-      return;
+  void _scrollListener(WidgetRef ref) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.7) {
+      ref.read(photosProvider.notifier).updateIndex();
     }
-    setState(() {
-      _pageIndex++;
-    });
-    print('-------------------- $_pageIndex ----------------------');
   }
 
   @override
   Widget build(BuildContext context) {
     final photos =
         ref.watch(photosProvider.notifier).getPhotosByAlbumId(widget.id);
+    final isLoading = ref.watch(loaderProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -78,6 +76,19 @@ class _PhotosScreenState extends ConsumerState<PhotosScreen> {
           : const Center(
               child: Icon(Icons.hourglass_empty),
             ),
+      bottomNavigationBar: photos.length > 25
+          ? const SizedBox.shrink()
+          : !isLoading
+              ? const SizedBox.shrink()
+              : const SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
     );
   }
 }
