@@ -38,16 +38,17 @@ class _PhotosScreenState extends ConsumerState<PhotosScreen> {
 
   void _scrollListener(WidgetRef ref) {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.7) {
+        _scrollController.position.maxScrollExtent - 200) {
       ref.read(photosProvider.notifier).updateIndex();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(photosProvider);
     final photos =
-        ref.watch(photosProvider.notifier).getPhotosByAlbumId(widget.id);
-    final isLoading = ref.watch(loaderProvider);
+        ref.read(photosProvider.notifier).getPhotosByAlbumId(widget.id);
+    // final isLoading = ref.watch(loaderProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -76,19 +77,19 @@ class _PhotosScreenState extends ConsumerState<PhotosScreen> {
           : const Center(
               child: Icon(Icons.hourglass_empty),
             ),
-      bottomNavigationBar: photos.length > 25
-          ? const SizedBox.shrink()
-          : !isLoading
-              ? const SizedBox.shrink()
-              : const SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+      // bottomNavigationBar: photos.length > 25
+      //     ? const SizedBox.shrink()
+      //     : !isLoading
+      //         ? const SizedBox.shrink()
+      //         : const SizedBox(
+      //             width: 60,
+      //             height: 60,
+      //             child: Center(
+      //               child: CircularProgressIndicator(
+      //                 color: Colors.black,
+      //               ),
+      //             ),
+      //           ),
     );
   }
 }

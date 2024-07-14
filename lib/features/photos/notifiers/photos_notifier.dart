@@ -20,14 +20,23 @@ class PhotosNotifier extends StateNotifier<List<Photo>> {
 
   void initIndex() {
     _currentIndex = 1;
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        state = [...state];
+      },
+    );
   }
 
   void updateIndex() {
-    if (_currentIndex == 2) {
-      return;
-    }
-    _currentIndex++;
-    state = [...state];
+    _currentIndex = 2;
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        state = [...state];
+      },
+    );
+    print(_currentIndex);
   }
 
   Future<void> fetchAndSetPhotos() async {
@@ -55,12 +64,40 @@ class PhotosNotifier extends StateNotifier<List<Photo>> {
   }
 
   List<Photo> getPhotosByAlbumId(int id) {
-    Future.delayed(
-      const Duration(milliseconds: 100),
-      () {
-        _loader.updateState(false);
-      },
-    );
+    // Future.delayed(
+    //   const Duration(milliseconds: 100),
+    //   () {
+    //     _loader.updateState(false);
+    //   },
+    // );
+
+    // final returnable = state
+    //     .where(
+    //       (element) => element.albumId == id,
+    //     )
+    //     .toList()
+    //     .take(_currentIndex * 25)
+    //     .toList();
+
+    // Future.delayed(
+    //   const Duration(seconds: 1),
+    //   () {
+    //     _loader.updateState(true);
+    //   },
+    // );
+
+    // Future.delayed(
+    //   const Duration(milliseconds: 100),
+    //   () {
+    //     state = [...state];
+    //   },
+    // );
+
+    // print(_currentIndex);
+
+    // return returnable;
+
+    print(_currentIndex);
 
     final returnable = state
         .where(
@@ -70,12 +107,7 @@ class PhotosNotifier extends StateNotifier<List<Photo>> {
         .take(_currentIndex * 25)
         .toList();
 
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        _loader.updateState(true);
-      },
-    );
+    print(returnable.length);
 
     return returnable;
   }
