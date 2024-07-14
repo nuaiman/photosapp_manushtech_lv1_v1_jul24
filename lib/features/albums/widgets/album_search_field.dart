@@ -33,6 +33,7 @@ class _AlbumSearchFieldState extends ConsumerState<AlbumSearchField> {
 
   @override
   Widget build(BuildContext context) {
+    final albumsSearchTerm = ref.watch(albumsSearchProvider);
     return TextField(
       controller: _searchController,
       onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
@@ -49,7 +50,12 @@ class _AlbumSearchFieldState extends ConsumerState<AlbumSearchField> {
           onTap: () {
             clearControllerAndUnfocus(ref);
           },
-          child: const Icon(Icons.close),
+          child: albumsSearchTerm.isEmpty
+              ? const Opacity(
+                  opacity: 0,
+                  child: Icon(Icons.done),
+                )
+              : const Icon(Icons.close),
         ),
       ),
     );
